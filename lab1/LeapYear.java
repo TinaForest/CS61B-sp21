@@ -7,6 +7,7 @@ public class LeapYear {
      *  @param  year to be analyzed
      */
 	public static boolean isLeapYear(int year) {
+		##test
 		if (year%400==0) {
 			return true;
 		} else if (year%100!=0&&year%4==0) {
