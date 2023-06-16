@@ -9,7 +9,7 @@ public class NBody {
         In in =new In(s);
         int n = in.readInt();
         in.readDouble();
-        Planet[] ps= new Planet[5];
+        Planet[] ps= new Planet[n];
         for (int i=0;i<n;i++){
             ps[i] = new Planet(in.readDouble(),in.readDouble(),in.readDouble(), in.readDouble(), in.readDouble(), in.readString());
         }
@@ -36,7 +36,7 @@ public class NBody {
             }
             for(int i=0;i<ps.length;i++){
                 ps[i].update(dt,xForces[i],yForces[i]);
-                StdDraw.picture(ps[i].xxPos, ps[i].yyPos, "./images/"+ps[i].imgFileName);
+                ps[i].draw();
             }
             StdDraw.show();
             StdDraw.pause(10);
