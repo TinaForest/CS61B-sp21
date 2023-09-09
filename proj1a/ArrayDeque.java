@@ -62,7 +62,7 @@ public class ArrayDeque<T> {
         array[size - 1] = null;
         size = size - 1;
         if (size < array.length / 4) {
-            resize(size / 4);
+            resize(array.length / 4);
         }
         return x;
     }
@@ -79,7 +79,7 @@ public class ArrayDeque<T> {
         array[size - 1] = null;
         size = size - 1;
         if (size < array.length / 4) {
-            resize(size / 4);
+            resize(array.length / 4);
         }
         return x;
     }
