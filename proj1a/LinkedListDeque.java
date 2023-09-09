@@ -1,5 +1,5 @@
 public class LinkedListDeque<T> {
-    public class TNode {
+    private class TNode {
         TNode prev;
         TNode next;
         T item;
@@ -16,8 +16,8 @@ public class LinkedListDeque<T> {
         }
     }
 
-    TNode sentinel;
-    int size = 0;
+    private TNode sentinel;
+    private int size = 0;
 
     /*Creates an empty linked list deque.*/
     public LinkedListDeque() {
@@ -83,9 +83,6 @@ public class LinkedListDeque<T> {
         return last.item;
     }
 
-    /* Gets the item at the given index, where 0 is the front, 1 is the next item, and so forth.
-     * If no such item exists, returns null. Must not alter the deque!
-     */
     public T get(int index) {
         if (isEmpty()) {
             return null;
@@ -105,6 +102,7 @@ public class LinkedListDeque<T> {
         }
         return getRecursiveHelper(sentinel.next, index);
     }
+
     private T getRecursiveHelper(TNode node, int i) {
         while (i > 0 && node.next != sentinel) {
             return getRecursiveHelper(node.next, i - 1);
