@@ -1,7 +1,6 @@
 public class ArrayDeque<T> {
     private T[] array;
     private int size = 0;
-
     /**
      * Creates an empty list.
      */
@@ -18,9 +17,11 @@ public class ArrayDeque<T> {
 
     public void addFirst(T item) {
         if (array.length == size) {
-            resize(size * 4);
+            resize(size * 2);
         }
-        System.arraycopy(array, 0, array, 1, size);
+        T[] temp = (T[]) new Object[array.length];
+        System.arraycopy(array, 0, temp, 1, size);
+        array=temp;
         array[0] = item;
         size = size + 1;
     }
@@ -30,7 +31,7 @@ public class ArrayDeque<T> {
      */
     public void addLast(T item) {
         if (size == array.length) {
-            resize(size * 4);
+            resize(size * 2);
         }
         array[size] = item;
         size = size + 1;
@@ -58,8 +59,9 @@ public class ArrayDeque<T> {
             return null;
         }
         T x = array[0];
-        System.arraycopy(array, 1, array, 0, size - 1);
-        array[size - 1] = null;
+        T[] temp = (T[]) new Object[array.length];
+        System.arraycopy(array, 1, temp, 0, size - 1);
+        array=temp;
         size = size - 1;
         if (size < array.length / 4) {
             resize(array.length / 4);
