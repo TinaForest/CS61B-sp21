@@ -18,7 +18,7 @@ public class ArrayDeque<T> {
 
     public void addFirst(T item) {
         if (array.length == size) {
-            resize(size * 2);
+            resize(size * 4);
         }
         System.arraycopy(array, 0, array, 1, size);
         array[0] = item;
@@ -30,7 +30,7 @@ public class ArrayDeque<T> {
      */
     public void addLast(T item) {
         if (size == array.length) {
-            resize(size * 2);
+            resize(size * 4);
         }
         array[size] = item;
         size = size + 1;
