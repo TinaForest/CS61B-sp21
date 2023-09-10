@@ -1,30 +1,37 @@
 public class ArrayDeque<T> {
     private T[] array;
     private int size = 0;
+    private int nextFirst;
+    private int nextLast;
 
     /**
      * Creates an empty list.
      */
     public ArrayDeque() {
-        array = (T[]) new Object[10];
+        array = (T[]) new Object[8];
+        nextFirst = 0;
+        nextLast = 1;
     }
 
     /*resize the underlying array to the target capacity*/
     private void resize(int capacity) {
         T[] a = (T[]) new Object[capacity];
-        System.arraycopy(array, 0, a, 0, size);
+        for (int i = 0; i < size; i++) {
+            a[i] = array[(i + nextFirst + 1) % 8];
+        }
         array = a;
+        nextFirst = 0;
+        nextLast = size - 1;
     }
 
     public void addFirst(T item) {
         if (array.length == size) {
             resize(size * 2);
         }
-        System.arraycopy(array, 0, array, 1, size);
-        array[0] = item;
+        array[nextFirst] = item;
         size = size + 1;
+        nextFirst = (nextFirst + 7) % 8;
     }
-
     /**
      * Inserts X into the back of the list.
      */
@@ -32,24 +39,19 @@ public class ArrayDeque<T> {
         if (size == array.length) {
             resize(size * 2);
         }
-        array[size] = item;
+        array[nextLast] = item;
+        nextLast = (nextLast + 1) % 8;
         size = size + 1;
     }
-
     public boolean isEmpty() {
         return (size == 0);
     }
-
-    /**
-     * Returns the number of Ts in the list.
-     */
     public int size() {
         return size;
     }
-
     public void printDeque() {
         for (int i = 0; i < size; i++) {
-            System.out.print(array[i] + " ");
+            System.out.print(array[(i + nextFirst + 1) % 8] + " ");
         }
     }
 
@@ -57,37 +59,30 @@ public class ArrayDeque<T> {
         if (size == 0) {
             return null;
         }
-        T x = array[0];
-        System.arraycopy(array, 1, array, 0, size - 1);
-        array[size - 1] = null;
+        T x = array[nextFirst];
+        array[nextFirst] = null;
         size = size - 1;
-        if (size < array.length / 2) {
+        nextFirst = (nextFirst + 1) % 8;
+        if (size < array.length / 4) {
             resize(array.length / 2);
         }
         return x;
     }
 
-    /**
-     * Deletes T from back of the list and
-     * returns deleted T.
-     */
     public T removeLast() {
         if (size == 0) {
             return null;
         }
-        T x = array[size - 1];
-        array[size - 1] = null;
+        T x = array[nextLast];
+        array[nextLast] = null;
         size = size - 1;
-        if (size < array.length / 2) {
+        nextLast = (nextLast + 7) % 8;
+        if (size < array.length / 4) {
             resize(array.length / 2);
         }
         return x;
     }
-
-    /**
-     * Gets the ith T in the list (0 is the front).
-     */
     public T get(int index) {
-        return array[index];
+        return array[(index + nextFirst + 1) % 8];
     }
 }
