@@ -20,8 +20,8 @@ public class ArrayDeque<T> {
             a[i] = array[(i + nextFirst + 1) % 8];
         }
         array = a;
-        nextFirst = 0;
-        nextLast = size - 1;
+        nextFirst = capacity - 1;
+        nextLast = size;
     }
 
     public void addFirst(T item) {
@@ -32,6 +32,7 @@ public class ArrayDeque<T> {
         size = size + 1;
         nextFirst = (nextFirst + 7) % 8;
     }
+
     /**
      * Inserts X into the back of the list.
      */
@@ -43,12 +44,15 @@ public class ArrayDeque<T> {
         nextLast = (nextLast + 1) % 8;
         size = size + 1;
     }
+
     public boolean isEmpty() {
         return (size == 0);
     }
+
     public int size() {
         return size;
     }
+
     public void printDeque() {
         for (int i = 0; i < size; i++) {
             System.out.print(array[(i + nextFirst + 1) % 8] + " ");
@@ -59,7 +63,7 @@ public class ArrayDeque<T> {
         if (size == 0) {
             return null;
         }
-        T x = array[nextFirst];
+        T x = array[(nextFirst + 1) % 8];
         array[nextFirst] = null;
         size = size - 1;
         nextFirst = (nextFirst + 1) % 8;
@@ -73,7 +77,7 @@ public class ArrayDeque<T> {
         if (size == 0) {
             return null;
         }
-        T x = array[nextLast];
+        T x = array[(nextLast + 7) % 8];
         array[nextLast] = null;
         size = size - 1;
         nextLast = (nextLast + 7) % 8;
@@ -82,6 +86,7 @@ public class ArrayDeque<T> {
         }
         return x;
     }
+
     public T get(int index) {
         return array[(index + nextFirst + 1) % 8];
     }
