@@ -1,5 +1,3 @@
-import java.util.Objects;
-
 public class Palindrome {
     public Deque<Character> wordToDeque(String word) {
         Deque<Character> L = new LinkedListDeque<>();
@@ -14,7 +12,7 @@ public class Palindrome {
         return isPalindromeHelper(L);
     }
 
-    public boolean isPalindromeHelper(Deque<Character> L) {
+    private boolean isPalindromeHelper(Deque<Character> L) {
         int n = L.size();
         if (n == 0 || n == 1) {
             return true;
