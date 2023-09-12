@@ -17,7 +17,9 @@ public class ArithmeticTest {
         assertEquals(0, Arithmetic.product(0, -6));
     }
 
-    /** Performs a few arbitrary tests to see if the sum method is correct */
+    /**
+     * Performs a few arbitrary tests to see if the sum method is correct
+     */
 
     @Test 
     public void testSum() {
