@@ -12,9 +12,15 @@ public class TestOffByOne {
     public void testEqualChars() {
         assertTrue(offByOne.equalChars('&', '%'));
         assertTrue(offByOne.equalChars('%', '&'));
+        assertTrue(offByOne.equalChars('A', '@'));
         assertFalse(offByOne.equalChars('a', 'a'));
-        assertFalse(offByOne.equalChars('B', 'b'));
-        assertFalse(offByOne.equalChars('z', 'Z'));
+/*        Test Failed!
+                No valid tests caught the bug in Buggy OffByOne 4.
+        at AGTestTestOffByOne.testBuggy:76 (AGTestTestOffByOne.java)
+                at AGTestTestOffByOne.testBuggy4:40 (AGTestTestOffByOne.java)
+                Hint: characters can be upper or lower case.*/
+        assertFalse(offByOne.equalChars('B', 'c'));
+        assertFalse(offByOne.equalChars('y', 'Z'));
     }
 
 }
