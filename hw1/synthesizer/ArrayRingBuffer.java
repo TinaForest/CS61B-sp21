@@ -23,11 +23,11 @@ public class ArrayRingBuffer<T> extends AbstractBoundedQueue<T> {
         //       this.capacity should be set appropriately. Note that the local variable
         //       here shadows the field we inherit from AbstractBoundedQueue, so
         //       you'll need to use this.capacity to set the capacity.
-        rb=(T[])new Object[capacity];
-        first=0;
-        last=0;
-        fillCount=0;
-        this.capacity=capacity;
+        rb = (T[]) new Object[capacity];
+        first = 0;
+        last = 0;
+        fillCount = 0;
+        this.capacity = capacity;
     }
 
     /**
@@ -37,12 +37,12 @@ public class ArrayRingBuffer<T> extends AbstractBoundedQueue<T> {
      */
     public void enqueue(T x) {
         // TODO: Enqueue the item. Don't forget to increase fillCount and update last.
-        if(!isFull()) {
+        if (!isFull()) {
             rb[last] = x;
-            last=(last+1)%capacity;
-            fillCount=fillCount+1;
-        } else{
-            System.out.println("is full");
+            last = (last + 1) % capacity;
+            fillCount = fillCount + 1;
+        } else {
+            throw new RuntimeException("Ring Buffer Overflow");
         }
     }
 
@@ -53,15 +53,14 @@ public class ArrayRingBuffer<T> extends AbstractBoundedQueue<T> {
      */
     public T dequeue() {
         // TODO: Dequeue the first item. Don't forget to decrease fillCount and update
-        if(!isEmpty()){
-            T tmp=rb[first];
-            rb[first]=null;
-            first=(first+1)%capacity;
-            fillCount=fillCount-1;
+        if (!isEmpty()) {
+            T tmp = rb[first];
+            rb[first] = null;
+            first = (first + 1) % capacity;
+            fillCount = fillCount - 1;
             return tmp;
-        } else{
-            System.out.println("is empty");
-            return null;
+        } else {
+            throw new RuntimeException("Ring Buffer Underflow");
         }
     }
 
@@ -70,11 +69,10 @@ public class ArrayRingBuffer<T> extends AbstractBoundedQueue<T> {
      */
     public T peek() {
         // TODO: Return the first item. None of your instance variables should change.
-        if(!isEmpty()) {
+        if (!isEmpty()) {
             return rb[first];
-        } else{
-            System.out.println("is empty");
-            return null;
+        } else {
+            throw new RuntimeException("Ring Buffer Underflow");
         }
     }
 
@@ -83,20 +81,23 @@ public class ArrayRingBuffer<T> extends AbstractBoundedQueue<T> {
     public Iterator<T> iterator() {
         return new arbIterator();
     }
-    private class arbIterator implements Iterator<T>{
+
+    private class arbIterator implements Iterator<T> {
         int arbPos;
-        public arbIterator(){
-            arbPos=0;
+
+        public arbIterator() {
+            arbPos = 0;
         }
+
         @Override
         public boolean hasNext() {
-            return (arbPos<fillCount);
+            return (arbPos < fillCount);
         }
 
         @Override
         public T next() {
             T t = rb[((first + arbPos) % capacity)];
-            arbPos=arbPos+1;
+            arbPos = arbPos + 1;
             return t;
         }
     }
