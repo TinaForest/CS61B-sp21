@@ -85,21 +85,21 @@ public class ArrayRingBuffer<T> extends AbstractBoundedQueue<T> {
     }
 
     private class ArbIterator implements Iterator<T> {
-        int ArbPos;
+        int p;
 
         public ArbIterator() {
-            ArbPos = 0;
+            p = 0;
         }
 
         @Override
         public boolean hasNext() {
-            return (ArbPos < fillCount);
+            return (p < fillCount);
         }
 
         @Override
         public T next() {
-            T t = rb[((first + ArbPos) % capacity)];
-            ArbPos = ArbPos + 1;
+            T t = rb[((first + p) % capacity)];
+            p = p + 1;
             return t;
         }
     }
