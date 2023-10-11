@@ -1,11 +1,12 @@
-package synthesizer;// TODO: Make sure to make this class a part of the synthesizer package
+package synthesizer;
+// task: Make sure to make this class a part of the synthesizer package
 // package <package name>;
 
 
 import java.util.Iterator;
 
-//TODO: Make sure to make this class and all of its methods public
-//TODO: Make sure to make this class extend AbstractBoundedQueue<t>
+//task: Make sure to make this class and all of its methods public
+//task: Make sure to make this class extend AbstractBoundedQueue<t>
 public class ArrayRingBuffer<T> extends AbstractBoundedQueue<T> {
     /* Index for the next dequeue or peek. */
     private int first;            // index for the next dequeue or peek
@@ -18,7 +19,7 @@ public class ArrayRingBuffer<T> extends AbstractBoundedQueue<T> {
      * Create a new ArrayRingBuffer with the given capacity.
      */
     public ArrayRingBuffer(int capacity) {
-        // TODO: Create new array with capacity elements.
+        // task: Create new array with capacity elements.
         //       first, last, and fillCount should all be set to 0.
         //       this.capacity should be set appropriately. Note that the local variable
         //       here shadows the field we inherit from AbstractBoundedQueue, so
@@ -28,6 +29,7 @@ public class ArrayRingBuffer<T> extends AbstractBoundedQueue<T> {
         last = 0;
         fillCount = 0;
         this.capacity = capacity;
+
     }
 
     /**
@@ -36,7 +38,7 @@ public class ArrayRingBuffer<T> extends AbstractBoundedQueue<T> {
      * covered Monday.
      */
     public void enqueue(T x) {
-        // TODO: Enqueue the item. Don't forget to increase fillCount and update last.
+        // task: Enqueue the item. Don't forget to increase fillCount and update last.
         if (!isFull()) {
             rb[last] = x;
             last = (last + 1) % capacity;
@@ -52,7 +54,7 @@ public class ArrayRingBuffer<T> extends AbstractBoundedQueue<T> {
      * covered Monday.
      */
     public T dequeue() {
-        // TODO: Dequeue the first item. Don't forget to decrease fillCount and update
+        // task: Dequeue the first item. Don't forget to decrease fillCount and update
         if (!isEmpty()) {
             T tmp = rb[first];
             rb[first] = null;
@@ -68,7 +70,7 @@ public class ArrayRingBuffer<T> extends AbstractBoundedQueue<T> {
      * Return oldest item, but don't remove it.
      */
     public T peek() {
-        // TODO: Return the first item. None of your instance variables should change.
+        // task: Return the first item. None of your instance variables should change.
         if (!isEmpty()) {
             return rb[first];
         } else {
@@ -76,28 +78,28 @@ public class ArrayRingBuffer<T> extends AbstractBoundedQueue<T> {
         }
     }
 
-    // TODO: When you get to part 5, implement the needed code to support iteration.
+    // task: When you get to part 5, implement the needed code to support iteration.
     @Override
     public Iterator<T> iterator() {
-        return new arbIterator();
+        return new ArbIterator();
     }
 
-    private class arbIterator implements Iterator<T> {
-        int arbPos;
+    private class ArbIterator implements Iterator<T> {
+        int ArbPos;
 
-        public arbIterator() {
-            arbPos = 0;
+        public ArbIterator() {
+            ArbPos = 0;
         }
 
         @Override
         public boolean hasNext() {
-            return (arbPos < fillCount);
+            return (ArbPos < fillCount);
         }
 
         @Override
         public T next() {
-            T t = rb[((first + arbPos) % capacity)];
-            arbPos = arbPos + 1;
+            T t = rb[((first + ArbPos) % capacity)];
+            ArbPos = ArbPos + 1;
             return t;
         }
     }
