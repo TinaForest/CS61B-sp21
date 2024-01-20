@@ -17,42 +17,43 @@ public class Percolation {
             throw new IllegalArgumentException("N<=0");
         }
         this.N = N;
-        uf = new WeightedQuickUnionUF(N*N+2);
-        uf_backwash = new WeightedQuickUnionUF(N*N+1);
-        virtual_top=N*N;
-        for(int i=0;i<N;i++){
-            uf.union(virtual_top,i);
-            uf_backwash.union(virtual_top,i);
+        uf = new WeightedQuickUnionUF(N * N + 2);
+        uf_backwash = new WeightedQuickUnionUF(N * N + 1);
+        virtual_top = N * N;
+        for (int i = 0; i < N; i++) {
+            uf.union(virtual_top, i);
+            uf_backwash.union(virtual_top, i);
         }
-        virtual_bot=N*N+1;
-        for(int i=0;i<N;i++){
-            uf.union(virtual_bot,N*(N-1)+i);
+        virtual_bot = N * N + 1;
+        for (int i = 0; i < N; i++) {
+            uf.union(virtual_bot, N * (N - 1) + i);
         }
         grid = new boolean[N][N];
         count = 0;
     }
+
     // open the site (row, col) if it is not open already
     public void open(int row, int col) {
-        if(isOpen(row, col)){
+        if (isOpen(row, col)) {
             return;
         }
         int index = xyTo1D(row, col);
         grid[row][col] = true;
         count++;
         // if there is open sites around, then union this site with that.
-        if (row-1>=0&&isOpen(row - 1, col)) {
+        if (row - 1 >= 0 && isOpen(row - 1, col)) {
             uf.union(index, xyTo1D(row - 1, col));
             uf_backwash.union(index, xyTo1D(row - 1, col));
         }
-        if(row+1<N&&isOpen(row+1,col)) {
+        if (row + 1 < N && isOpen(row + 1, col)) {
             uf.union(index, xyTo1D(row + 1, col));
             uf_backwash.union(index, xyTo1D(row + 1, col));
         }
-        if(col-1>=0&&isOpen(row,col-1)) {
+        if (col - 1 >= 0 && isOpen(row, col - 1)) {
             uf.union(index, xyTo1D(row, col - 1));
             uf_backwash.union(index, xyTo1D(row, col - 1));
         }
-        if(col+1<N&&isOpen(row,col+1)) {
+        if (col + 1 < N && isOpen(row, col + 1)) {
             uf.union(index, xyTo1D(row, col + 1));
             uf_backwash.union(index, xyTo1D(row, col + 1));
         }
@@ -63,20 +64,32 @@ public class Percolation {
         validate(row, col);
         return grid[row][col];
     }
+
     // is the site (row, col) full?
     public boolean isFull(int row, int col) {
-        if(!isOpen(row,col)){
+        if (!isOpen(row, col)) {
             return false;
         }
-        int index=xyTo1D(row,col);
-        if(row!=0)
+        int index = xyTo1D(row, col);
+        if (row != 0)
             return uf_backwash.connected(virtual_top, index);
         return true;
     }
+
     // does the system percolate?
     public boolean percolates() {
-        return uf.connected(virtual_top,virtual_bot);
+        if (N == 1) {
+            return isOpen(0, 0);
+        } else if (N == 2) {
+            if (uf.connected(0, 2) || uf.connected(1, 3)) {
+                return true;
+            }
+            return false;
+        } else {
+            return uf.connected(virtual_top, virtual_bot);
+        }
     }
+
     // number of open sites
     public int numberOfOpenSites() {
         return count;
@@ -85,11 +98,13 @@ public class Percolation {
     private int xyTo1D(int r, int c) {
         return r * N + c;
     }
-    private void validate(int row,int col){
-        if(row<0||row>=N||col<0||col>=N){
+
+    private void validate(int row, int col) {
+        if (row < 0 || row >= N || col < 0 || col >= N) {
             throw new IndexOutOfBoundsException();
         }
     }
+
     // use for unit testing (not required)}
     public static void main(String[] args) {
         return;
