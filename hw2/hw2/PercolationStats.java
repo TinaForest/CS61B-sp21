@@ -11,12 +11,13 @@ public class PercolationStats {
     private double[] a;
     private double mean;
     private double stddev;
+
     // perform T independent experiments on an N-by-N grid
     public PercolationStats(int N, int T, PercolationFactory pf) {
         if (N <= 0 || T <= 0)
             throw new IllegalArgumentException("N<=0||T<=0");
         double count;
-        a=new double[N];
+        a = new double[T];
         for (int i = 0; i < T; i++) {
             count = 0;
             Percolation perc = pf.make(N);
@@ -29,32 +30,32 @@ public class PercolationStats {
                     row = uniform(N);
                     col = uniform(N);
                 } while (perc.isOpen(row, col));
-                perc.open(row,col);
+                perc.open(row, col);
             }
-            a[i]=count/(N*N);
+            a[i] = count / (N * N);
         }
     }
 
     // sample mean of percolation threshold
     public double mean() {
-        mean=StdStats.mean(a);
+        mean = StdStats.mean(a);
         return mean;
     }
 
     // sample standard deviation of percolation threshold
     public double stddev() {
-        stddev=StdStats.stddev(a);
+        stddev = StdStats.stddev(a);
         return stddev;
     }
 
     // low endpoint of 95% confidence interval
     public double confidenceLow() {
-        return mean-1.96*stddev/Math.sqrt(a.length);
+        return mean - 1.96 * stddev / Math.sqrt(a.length);
     }
 
     // high endpoint of 95% confidence interval
     public double confidenceHigh() {
-        return mean+1.96*stddev/Math.sqrt(a.length);
+        return mean + 1.96 * stddev / Math.sqrt(a.length);
     }
     /*
     public static void main(String[] args){
