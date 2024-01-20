@@ -3,9 +3,6 @@ package hw2;
 import edu.princeton.cs.algs4.StdStats;
 import edu.princeton.cs.introcs.StdRandom;
 
-import java.util.ArrayList;
-
-import static edu.princeton.cs.algs4.StdRandom.uniform;
 
 public class PercolationStats {
     private double[] a;
@@ -14,8 +11,9 @@ public class PercolationStats {
 
     // perform T independent experiments on an N-by-N grid
     public PercolationStats(int N, int T, PercolationFactory pf) {
-        if (N <= 0 || T <= 0)
+        if (N <= 0 || T <= 0) {
             throw new IllegalArgumentException("N<=0||T<=0");
+        }
         double count;
         a = new double[T];
         for (int i = 0; i < T; i++) {
@@ -27,24 +25,24 @@ public class PercolationStats {
                 count++;
                 // pick sites, open them,
                 do {
-                    row = uniform(N);
-                    col = uniform(N);
+                    row = StdRandom.uniform(N);
+                    col = StdRandom.uniform(N);
                 } while (perc.isOpen(row, col));
                 perc.open(row, col);
             }
             a[i] = count / (N * N);
         }
+        mean = StdStats.mean(a);
+        stddev = StdStats.stddev(a);
     }
 
     // sample mean of percolation threshold
     public double mean() {
-        mean = StdStats.mean(a);
         return mean;
     }
 
     // sample standard deviation of percolation threshold
     public double stddev() {
-        stddev = StdStats.stddev(a);
         return stddev;
     }
 
@@ -59,10 +57,13 @@ public class PercolationStats {
     }
     /*
     public static void main(String[] args){
-        PercolationStats ps=new PercolationStats(20,20,new PercolationFactory());
+        PercolationStats ps=new PercolationStats(20,10,new PercolationFactory());
         System.out.println(ps.mean());
+        System.out.println(ps.confidenceHigh());
+        System.out.println(ps.confidenceLow());
         System.out.println(ps.stddev());
-        System.out.println("["+ps.confidenceLow()+", "+ps.confidenceHigh()+"]");
+        System.out.println(ps.confidenceLow());
     }
-     */
+    */
+
 }
